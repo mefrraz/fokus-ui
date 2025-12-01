@@ -1,0 +1,86 @@
+Perfeito! Vou responder às perguntas dele de forma clara:
+
+---
+
+## Respostas para o Google AI Studio:
+
+### 1. **Paleta de Cores (3 CORES APENAS)**
+
+```
+Primary Accent: #102A43 (Deep Navy Blue)
+- Uso: CTAs, títulos em fundos escuros, acentos
+
+Background Base: #F8F8F8 (Soft White/Light Gray)  
+- Uso: Fundo principal das secções claras
+
+Text/Contrast: #111827 (Preto/Cinza Escuro)
+- Uso: Texto principal, títulos
+
+IMPORTANTE: NÃO usar amarelo, verde, roxo, laranja ou cores vibrantes.
+Variações permitidas: tons de cinza (#EAEAEA para separação visual)
+```
+
+---
+
+### 2. **Funcionalidades Core (MVP - Landing Page Institucional)**
+
+**Para esta primeira versão, é APENAS uma Landing Page institucional (não é um sistema completo):**
+
+✅ **Incluir:**
+- Apresentação da plataforma (Hero)
+- Proposta de valor (3 pilares)
+- Credibilidade institucional
+- CTA para contacto/interesse
+- Footer com links institucionais
+
+❌ **NÃO incluir nesta versão:**
+- Sistema de login/registo
+- Catálogo de cursos navegável
+- Sistema de pagamento
+- Área de aluno
+
+**Objetivo:** Página de apresentação para validar interesse e captar leads, não é a plataforma funcional completa.
+
+---
+
+### 3. **Conteúdo**
+
+**Use o conteúdo EXATO que forneci no prompt:**
+
+- Todos os textos dos títulos H1, H2, H3 estão especificados
+- Todos os subtítulos e descrições estão definidos
+- Textos dos cards estão completos
+
+**Para elementos visuais:**
+- **NÃO usar imagens externas** 
+- Criar elementos visuais com **SVG, CSS ou divs animados**
+- Gráficos abstratos devem ser geométricos e minimalistas
+- Usar apenas as 3 cores da paleta
+
+**Exemplo:** No Hero, em vez de imagem, criar um SVG animado com círculos, linhas e formas geométricas em Navy Blue e branco com animação de levitação.
+
+---
+
+## Prompt Consolidado para Copiar:
+
+```
+Paleta de Cores: 
+- Primary: #102A43 (Deep Navy Blue)
+- Background: #F8F8F8 (Soft White)
+- Text: #111827 (Preto/Cinza Escuro)
+
+Funcionalidades: 
+Landing Page institucional apenas (single page, sem sistema de login, sem catálogo de cursos). 
+Objetivo: apresentação da marca + captar interesse.
+
+Conteúdo: 
+Todos os textos estão especificados no prompt anterior. 
+Para visuais: criar com SVG/CSS (sem imagens externas).
+Usar apenas as 3 cores da paleta.
+
+Criar o website completo seguindo TODAS as especificações do prompt anterior.
+```
+
+---
+
+Copia esta resposta e envia para a AI! Ela já tem tudo o que precisa para começar. Queres que te ajude com mais alguma coisa? 🚀
