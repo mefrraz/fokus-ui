@@ -1,0 +1,539 @@
+# PROMPT: Páginas de Catálogo e Produto - FOKUS
+
+## CONTEXTO
+Este prompt expande o website FOKUS com duas novas páginas:
+1. **Página de Catálogo** (listagem de cursos)
+2. **Página de Produto/Curso** (detalhes individuais)
+
+**IMPORTANTE:** Manter o mesmo Design System da Landing Page:
+- Cores: #102A43, #F8F8F8, #111827
+- Glassmorphism obrigatório
+- Framer Motion para animações
+- Soft & Rounded (rounded-3xl)
+
+---
+
+## PÁGINA 1: CATÁLOGO DE CURSOS
+
+### Header/Navegação
+**Fixo no topo, Glassmorphism:**
+```
+- Logo "FOKUS" (esquerda)
+- Menu: Início | Cursos | Sobre | Contacto
+- CTA: "Área de Aluno" (botão navy blue)
+- Background: bg-white/40 backdrop-blur-3xl
+- Sombra sutil ao fazer scroll
+```
+
+### Hero Section
+**Background:** #F8F8F8  
+**Layout:** Centralizado
+
+**Conteúdo:**
+- **H1:** "Especialize-se com os Nossos Cursos Premium"
+  - `text-6xl font-extrabold text-center`
+- **Subtítulo:** "Formação certificada, acesso vitalício, suporte permanente"
+  - `text-xl font-light text-gray-500 text-center mt-4`
+
+### Filtros & Pesquisa
+**Layout:** Horizontal, sticky abaixo do header
+
+**Componentes:**
+```jsx
+<div className="flex gap-4 items-center">
+  {/* Barra de Pesquisa */}
+  <input 
+    type="search" 
+    placeholder="Procurar cursos..."
+    className="bg-white/40 backdrop-blur-xl rounded-full px-6 py-3 flex-1"
+  />
+  
+  {/* Filtros */}
+  <select className="bg-white/40 backdrop-blur-xl rounded-full px-6 py-3">
+    <option>Todas as Áreas</option>
+    <option>Tecnologia</option>
+    <option>Gestão</option>
+    <option>Marketing</option>
+  </select>
+  
+  <select className="bg-white/40 backdrop-blur-xl rounded-full px-6 py-3">
+    <option>Ordenar por</option>
+    <option>Mais Recentes</option>
+    <option>Mais Populares</option>
+    <option>Duração</option>
+  </select>
+</div>
+```
+
+### Grid de Cursos
+**Layout:** Grid 3 colunas desktop, 2 tablet, 1 mobile  
+**Spacing:** `grid md:grid-cols-2 lg:grid-cols-3 gap-8`
+
+**Card de Curso (Glassmorphism):**
+```jsx
+<motion.div
+  whileHover={{ scale: 1.03, y: -5 }}
+  className="bg-white/40 backdrop-blur-3xl rounded-3xl p-6 border border-white/20"
+>
+  {/* Badge de Categoria */}
+  <span className="bg-[#102A43] text-white px-4 py-2 rounded-full text-sm">
+    Tecnologia
+  </span>
+  
+  {/* Thumbnail Visual (SVG abstrato) */}
+  <div className="h-48 bg-gradient-to-br from-[#102A43] to-[#1a3a5c] rounded-2xl my-4">
+    {/* Ícone ou padrão geométrico */}
+  </div>
+  
+  {/* Título do Curso */}
+  <h3 className="text-2xl font-bold text-gray-900 mt-4">
+    Análise de Dados com Python
+  </h3>
+  
+  {/* Descrição Curta */}
+  <p className="text-gray-600 mt-2 line-clamp-2">
+    Domine análise de dados, visualização e machine learning básico.
+  </p>
+  
+  {/* Metadados */}
+  <div className="flex gap-4 mt-6 text-sm text-gray-500">
+    <span className="flex items-center gap-1">
+      <Clock size={16} /> 120h
+    </span>
+    <span className="flex items-center gap-1">
+      <Users size={16} /> 234 alunos
+    </span>
+    <span className="flex items-center gap-1">
+      <Star size={16} className="fill-[#102A43]" /> 4.8
+    </span>
+  </div>
+  
+  {/* CTA */}
+  <button className="w-full mt-6 bg-[#102A43] text-white py-3 rounded-full font-semibold hover:bg-[#1a3a5c] transition-all">
+    Ver Detalhes →
+  </button>
+</motion.div>
+```
+
+**Animação de Entrada:**
+- Staggered children (cards aparecem em cascata)
+- Fade + slide up
+
+### Dados dos Cursos (Exemplo)
+```javascript
+const cursos = [
+  {
+    id: 1,
+    titulo: "Análise de Dados com Python",
+    categoria: "Tecnologia",
+    duracao: "120h",
+    alunos: 234,
+    rating: 4.8,
+    descricao: "Domine análise de dados, visualização e machine learning básico.",
+    preco: 299,
+    nivel: "Intermédio"
+  },
+  {
+    id: 2,
+    titulo: "Gestão de Projetos Ágeis",
+    categoria: "Gestão",
+    duracao: "80h",
+    alunos: 189,
+    rating: 4.9,
+    descricao: "Scrum, Kanban e metodologias ágeis aplicadas ao mundo real.",
+    preco: 249,
+    nivel: "Iniciante"
+  },
+  // ... mais 6-8 cursos
+];
+```
+
+---
+
+## PÁGINA 2: DETALHES DO CURSO/PRODUTO
+
+### Estrutura da URL
+`/cursos/[slug-do-curso]`  
+Exemplo: `/cursos/analise-dados-python`
+
+### Hero do Curso
+**Background:** Gradient Navy Blue (`bg-gradient-to-br from-[#102A43] to-[#1a3a5c]`)  
+**Layout:** 2 colunas
+
+**Coluna Esquerda (60%):**
+```jsx
+<div className="text-white">
+  {/* Breadcrumb */}
+  <div className="text-white/60 mb-4">
+    Início / Cursos / Tecnologia / Análise de Dados
+  </div>
+  
+  {/* Badge */}
+  <span className="bg-white/20 backdrop-blur-xl px-4 py-2 rounded-full text-sm">
+    Tecnologia
+  </span>
+  
+  {/* Título */}
+  <h1 className="text-5xl md:text-6xl font-extrabold mt-6">
+    Análise de Dados com Python
+  </h1>
+  
+  {/* Subtítulo */}
+  <p className="text-xl text-white/80 mt-4">
+    Transforme dados em insights acionáveis com Python, Pandas, e visualização avançada.
+  </p>
+  
+  {/* Meta Info */}
+  <div className="flex gap-6 mt-8 text-white/90">
+    <div className="flex items-center gap-2">
+      <Clock size={20} />
+      <span>120 horas</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <BarChart size={20} />
+      <span>Intermédio</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <Users size={20} />
+      <span>234 alunos</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <Star size={20} className="fill-white" />
+      <span>4.8/5.0</span>
+    </div>
+  </div>
+</div>
+```
+
+**Coluna Direita (40%) - Card de Compra (Glassmorphism):**
+```jsx
+<div className="bg-white/10 backdrop-blur-3xl rounded-3xl p-8 border border-white/20 sticky top-24">
+  {/* Preço */}
+  <div className="text-white">
+    <span className="text-5xl font-extrabold">299€</span>
+    <span className="text-white/60 ml-2">pagamento único</span>
+  </div>
+  
+  {/* Features */}
+  <ul className="mt-6 space-y-3 text-white/90">
+    <li className="flex items-center gap-2">
+      <CheckCircle2 size={20} /> Acesso Vitalício
+    </li>
+    <li className="flex items-center gap-2">
+      <CheckCircle2 size={20} /> Certificado Reconhecido
+    </li>
+    <li className="flex items-center gap-2">
+      <CheckCircle2 size={20} /> Suporte Permanente
+    </li>
+    <li className="flex items-center gap-2">
+      <CheckCircle2 size={20} /> Atualizações Gratuitas
+    </li>
+  </ul>
+  
+  {/* CTA Principal */}
+  <button className="w-full mt-8 bg-white text-[#102A43] py-4 rounded-full font-bold text-lg hover:scale-105 transition-all">
+    Inscrever-me Agora
+  </button>
+  
+  {/* CTA Secundário */}
+  <button className="w-full mt-4 border-2 border-white/30 text-white py-3 rounded-full font-semibold hover:bg-white/10 transition-all">
+    Saber Mais
+  </button>
+  
+  {/* Garantia */}
+  <p className="text-center text-white/60 text-sm mt-6">
+    ✓ Garantia de 30 dias
+  </p>
+</div>
+```
+
+### Secção: O Que Vai Aprender
+**Background:** #F8F8F8  
+**Layout:** 1 coluna
+
+```jsx
+<section className="py-20 bg-[#F8F8F8]">
+  <div className="max-w-4xl mx-auto px-6">
+    <h2 className="text-4xl font-extrabold text-gray-900 mb-12">
+      O Que Vai Aprender
+    </h2>
+    
+    <div className="grid md:grid-cols-2 gap-6">
+      {objetivos.map((obj, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ delay: i * 0.1 }}
+          className="flex gap-4"
+        >
+          <CheckCircle2 className="text-[#102A43] flex-shrink-0" size={24} />
+          <p className="text-gray-700">{obj}</p>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
+```
+
+**Dados de Exemplo:**
+```javascript
+const objetivos = [
+  "Manipular e limpar grandes datasets com Pandas",
+  "Criar visualizações impactantes com Matplotlib e Seaborn",
+  "Aplicar análise estatística descritiva e inferencial",
+  "Desenvolver dashboards interativos",
+  "Implementar modelos de machine learning básicos",
+  "Automatizar processos de análise de dados"
+];
+```
+
+### Secção: Programa do Curso
+**Background:** #EAEAEA  
+**Layout:** Accordions (Glassmorphism)
+
+```jsx
+<section className="py-20 bg-[#EAEAEA]">
+  <div className="max-w-4xl mx-auto px-6">
+    <h2 className="text-4xl font-extrabold text-gray-900 mb-12">
+      Programa do Curso
+    </h2>
+    
+    {modulos.map((modulo, i) => (
+      <motion.div
+        key={i}
+        className="bg-white/40 backdrop-blur-3xl rounded-3xl p-6 mb-4 border border-white/20"
+      >
+        <button className="w-full flex justify-between items-center">
+          <div className="text-left">
+            <span className="text-sm text-gray-500">Módulo {i + 1}</span>
+            <h3 className="text-xl font-bold text-gray-900 mt-1">
+              {modulo.titulo}
+            </h3>
+          </div>
+          <ChevronDown className="text-gray-500" />
+        </button>
+        
+        {/* Conteúdo expandível */}
+        <div className="mt-4 space-y-2">
+          {modulo.licoes.map((licao, j) => (
+            <div key={j} className="flex justify-between text-gray-600">
+              <span className="flex items-center gap-2">
+                <PlayCircle size={16} /> {licao.titulo}
+              </span>
+              <span className="text-sm">{licao.duracao}</span>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+    ))}
+  </div>
+</section>
+```
+
+### Secção: Instrutor
+**Background:** #F8F8F8  
+**Layout:** 2 colunas (foto + bio)
+
+```jsx
+<section className="py-20 bg-[#F8F8F8]">
+  <div className="max-w-5xl mx-auto px-6">
+    <h2 className="text-4xl font-extrabold text-gray-900 mb-12">
+      O Seu Instrutor
+    </h2>
+    
+    <div className="grid md:grid-cols-3 gap-12 items-start">
+      {/* Foto (SVG placeholder) */}
+      <div className="bg-gradient-to-br from-[#102A43] to-[#1a3a5c] rounded-3xl aspect-square" />
+      
+      {/* Bio */}
+      <div className="md:col-span-2">
+        <h3 className="text-3xl font-bold text-gray-900">Dr. João Silva</h3>
+        <p className="text-[#102A43] font-semibold mt-2">
+          Data Scientist @ Tech Corp | PhD em Machine Learning
+        </p>
+        
+        <p className="text-gray-700 mt-6 leading-relaxed">
+          Com mais de 15 anos de experiência em análise de dados e machine learning, 
+          João já treinou mais de 5.000 profissionais em Portugal e Brasil...
+        </p>
+        
+        {/* Stats */}
+        <div className="grid grid-cols-3 gap-6 mt-8">
+          <div>
+            <div className="text-3xl font-bold text-[#102A43]">15+</div>
+            <div className="text-sm text-gray-500">Anos de Experiência</div>
+          </div>
+          <div>
+            <div className="text-3xl font-bold text-[#102A43]">5.000+</div>
+            <div className="text-sm text-gray-500">Alunos Treinados</div>
+          </div>
+          <div>
+            <div className="text-3xl font-bold text-[#102A43]">4.9</div>
+            <div className="text-sm text-gray-500">Avaliação Média</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+### Secção: Testemunhos
+**Background:** #EAEAEA  
+**Layout:** Grid 3 colunas (Cards Glassmorphism)
+
+```jsx
+{testemunhos.map((test, i) => (
+  <motion.div
+    key={i}
+    whileHover={{ scale: 1.03 }}
+    className="bg-white/40 backdrop-blur-3xl rounded-3xl p-8"
+  >
+    <div className="flex gap-1 text-[#102A43]">
+      {[...Array(5)].map((_, i) => <Star key={i} size={20} className="fill-current" />)}
+    </div>
+    
+    <p className="text-gray-700 mt-4 italic">
+      "{test.texto}"
+    </p>
+    
+    <div className="mt-6">
+      <p className="font-bold text-gray-900">{test.nome}</p>
+      <p className="text-sm text-gray-500">{test.cargo}</p>
+    </div>
+  </motion.div>
+))}
+```
+
+### Secção: FAQ
+**Background:** #F8F8F8  
+**Layout:** Accordions (mesma estrutura do Programa)
+
+### CTA Final
+**Background:** #102A43  
+**Igual à landing page** mas texto adaptado:
+- "Pronto para Dominar Análise de Dados?"
+- Botão: "Inscrever-me Agora por 299€"
+
+---
+
+## NAVEGAÇÃO ENTRE PÁGINAS
+
+### Routing (React Router exemplo)
+```javascript
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/cursos" element={<CatalogPage />} />
+        <Route path="/cursos/:slug" element={<CoursePage />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+```
+
+### Links Internos
+```jsx
+// No Header
+<Link to="/cursos" className="hover:text-[#102A43] transition-colors">
+  Cursos
+</Link>
+
+// No Card do Catálogo
+<Link to={`/cursos/${curso.slug}`}>
+  <button>Ver Detalhes →</button>
+</Link>
+```
+
+---
+
+## DADOS DE EXEMPLO COMPLETOS
+
+```javascript
+export const cursosData = [
+  {
+    id: 1,
+    slug: "analise-dados-python",
+    titulo: "Análise de Dados com Python",
+    categoria: "Tecnologia",
+    duracao: "120h",
+    alunos: 234,
+    rating: 4.8,
+    nivel: "Intermédio",
+    preco: 299,
+    descricaoCurta: "Domine análise de dados, visualização e machine learning básico.",
+    descricaoLonga: "Curso completo que cobre...",
+    objetivos: [
+      "Manipular datasets com Pandas",
+      "Criar visualizações com Matplotlib",
+      // ... mais objetivos
+    ],
+    modulos: [
+      {
+        titulo: "Fundamentos de Python para Dados",
+        licoes: [
+          { titulo: "Introdução ao Python", duracao: "45min" },
+          { titulo: "Estruturas de Dados", duracao: "1h 20min" },
+        ]
+      },
+      // ... mais módulos
+    ],
+    instrutor: {
+      nome: "Dr. João Silva",
+      cargo: "Data Scientist @ Tech Corp",
+      bio: "Com mais de 15 anos...",
+      foto: "/placeholder-avatar.svg"
+    },
+    testemunhos: [
+      {
+        nome: "Maria Costa",
+        cargo: "Analista de Dados @ XYZ",
+        texto: "Mudou completamente a minha carreira!",
+        rating: 5
+      },
+      // ... mais testemunhos
+    ]
+  },
+  // ... mais 7-9 cursos
+];
+```
+
+---
+
+## CHECKLIST DE IMPLEMENTAÇÃO
+
+**Página de Catálogo:**
+- [ ] Header com navegação sticky
+- [ ] Hero com título e subtítulo
+- [ ] Filtros funcionais (pesquisa + selects)
+- [ ] Grid responsivo de cards
+- [ ] Cards com glassmorphism
+- [ ] Hover animations em todos os cards
+- [ ] Animação staggered de entrada
+- [ ] Footer reutilizado da landing
+
+**Página de Produto:**
+- [ ] Hero com gradient navy
+- [ ] Card de compra sticky
+- [ ] Secção "O Que Vai Aprender"
+- [ ] Accordions de programa
+- [ ] Secção de instrutor
+- [ ] Grid de testemunhos
+- [ ] FAQ accordion
+- [ ] CTA final
+- [ ] Breadcrumb funcional
+
+**Geral:**
+- [ ] Routing configurado
+- [ ] Links internos funcionais
+- [ ] Design system consistente
+- [ ] Responsivo em todos os breakpoints
+- [ ] Animações Framer Motion
+- [ ] Apenas cores permitidas
+
+---
