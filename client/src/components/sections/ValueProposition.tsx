@@ -5,21 +5,21 @@ import { Target, Zap, Award } from "lucide-react";
 const pillars = [
   {
     icon: Target,
-    title: "Foco em Resultados",
+    title: "Manuais em PDF",
     description:
-      "Metodologia orientada para a aplicação prática. Cada módulo é desenhado para gerar impacto imediato no seu desempenho profissional.",
+      "Esqueça os vídeos longos e aborrecidos. Receba manuais completos e detalhados para estudar ao seu ritmo, onde e quando quiser.",
   },
   {
     icon: Zap,
-    title: "Aprendizagem Acelerada",
+    title: "Apoio Individual",
     description:
-      "Conteúdo condensado e estruturado para maximizar a retenção. Aprenda em semanas o que outros demoram meses a dominar.",
+      "Não está sozinho. Tenha acesso direto ao seu formador para tirar dúvidas e receber feedback personalizado durante todo o curso.",
   },
   {
     icon: Award,
-    title: "Certificação Premium",
+    title: "Certificação DGERT",
     description:
-      "Credenciais reconhecidas pelo mercado. A nossa certificação abre portas e valida as suas competências junto de empregadores.",
+      "Formação certificada que conta para as 40 horas anuais obrigatórias e valoriza o seu currículo no mercado de trabalho.",
   },
 ];
 
@@ -54,14 +54,13 @@ export default function ValueProposition() {
           className="text-center mb-16"
         >
           <span className="inline-block px-4 py-1.5 mb-4 text-xs font-medium tracking-wider uppercase bg-primary/10 text-primary rounded-full">
-            Porquê a FOKUS
+            Método FOKUS
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Uma abordagem diferente
+            Aprende. Aplica. Evolui.
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Combinamos rigor académico com relevância prática para criar 
-            experiências de aprendizagem transformadoras.
+            Não desperdiçamos o teu tempo. A nossa metodologia foi desenhada para quem quer resultados rápidos e tangíveis.
           </p>
         </motion.div>
 

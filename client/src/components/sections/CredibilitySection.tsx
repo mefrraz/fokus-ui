@@ -1,10 +1,17 @@
 import { motion } from "framer-motion";
+import { Star } from "lucide-react";
 
-const stats = [
-  { value: "2.500+", label: "Profissionais Formados" },
-  { value: "98%", label: "Taxa de Satisfação" },
-  { value: "45+", label: "Cursos Disponíveis" },
-  { value: "12", label: "Anos de Experiência" },
+interface Stat {
+  value: string;
+  label: string;
+  icon?: boolean;
+}
+
+const stats: Stat[] = [
+  { value: "300+", label: "Profissionais Impactados" },
+  { value: "4.9", label: "Classificação Média", icon: true },
+  { value: "45+", label: "Cursos DGERT" },
+  { value: "150+", label: "Manuais Técnicos" },
 ];
 
 const containerVariants = {
@@ -38,14 +45,14 @@ export default function CredibilitySection() {
           className="text-center mb-16"
         >
           <span className="inline-block px-4 py-1.5 mb-4 text-xs font-medium tracking-wider uppercase bg-primary/10 text-primary rounded-full">
-            Credibilidade
+            Mentalidade FOKUS
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Números que inspiram confiança
+            Resultados que falam por si
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            A nossa trajetória fala por si. Resultados consistentes construídos 
-            ao longo de mais de uma década de dedicação à excelência.
+            Uma metodologia testada e validada com centenas de profissionais.
+            Não vendemos cursos, entregamos competências reais.
           </p>
         </motion.div>
 
@@ -60,21 +67,22 @@ export default function CredibilitySection() {
             <motion.div
               key={index}
               variants={itemVariants}
-              className="text-center"
+              className="text-center flex flex-col items-center"
             >
-              <div className="relative inline-block">
-                <motion.span
-                  className="text-4xl md:text-5xl font-bold text-primary block mb-2"
+              <div className="relative inline-block mb-2">
+                <motion.div
+                  className="flex items-center justify-center gap-2 text-4xl md:text-5xl font-bold text-primary"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: index * 0.1 }}
                 >
                   {stat.value}
-                </motion.span>
+                  {stat.icon && <Star className="w-8 h-8 md:w-10 md:h-10 fill-primary" />}
+                </motion.div>
                 <div className="absolute -inset-4 bg-primary/5 rounded-full blur-xl -z-10" />
               </div>
-              <span className="text-sm md:text-base text-muted-foreground">
+              <span className="text-sm md:text-base text-muted-foreground font-medium">
                 {stat.label}
               </span>
             </motion.div>
@@ -96,9 +104,9 @@ export default function CredibilitySection() {
                   Metodologia Validada
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  O nosso modelo pedagógico é baseado em evidência científica e 
-                  validado por especialistas em educação corporativa. Cada curso 
-                  passa por um rigoroso processo de desenvolvimento e atualização contínua.
+                  O nosso modelo pedagógico é certificado pela DGERT e focado na
+                  autonomia do aluno. Manuais desenvolvidos por especialistas para
+                  garantir uma aprendizagem eficaz sem perda de tempo.
                 </p>
               </div>
               <div className="flex-shrink-0">
@@ -121,7 +129,7 @@ export default function CredibilitySection() {
                       fill="none"
                       strokeLinecap="round"
                       initial={{ pathLength: 0 }}
-                      whileInView={{ pathLength: 0.98 }}
+                      whileInView={{ pathLength: 0.96 }}
                       viewport={{ once: true }}
                       transition={{ duration: 1.5, ease: "easeOut" }}
                       style={{

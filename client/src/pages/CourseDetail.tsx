@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useParams, Link } from "wouter";
 import {
@@ -9,79 +9,31 @@ import {
   CheckCircle2,
   ChevronDown,
   ChevronUp,
-  PlayCircle,
+  FileText,
   ArrowLeft,
   ArrowRight,
+  Award,
+  BookOpen,
+  HelpCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getCourseBySlug } from "@shared/courses";
+import { getRandomTestimonials, Testimonial } from "@/data/testimonials";
+import { useCart } from "@/context/CartContext";
 
-function ModuleAccordion({
-  modulo,
-  index,
-  isOpen,
-  onToggle,
-}: {
-  modulo: { titulo: string; licoes: { titulo: string; duracao: string }[] };
-  index: number;
-  isOpen: boolean;
-  onToggle: () => void;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.1 }}
-      className="bg-white/50 backdrop-blur-xl rounded-3xl border border-white/30 overflow-hidden"
-    >
-      <button
-        onClick={onToggle}
-        className="w-full flex justify-between items-center p-6 text-left"
-        data-testid={`accordion-module-${index}`}
-      >
-        <div>
-          <span className="text-sm text-muted-foreground">Módulo {index + 1}</span>
-          <h3 className="text-lg font-semibold text-foreground mt-1">{modulo.titulo}</h3>
-        </div>
-        {isOpen ? (
-          <ChevronUp className="text-muted-foreground" />
-        ) : (
-          <ChevronDown className="text-muted-foreground" />
-        )}
-      </button>
 
-      {isOpen && (
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: "auto", opacity: 1 }}
-          exit={{ height: 0, opacity: 0 }}
-          className="px-6 pb-6 space-y-3"
-        >
-          {modulo.licoes.map((licao, j) => (
-            <div
-              key={j}
-              className="flex justify-between items-center py-2 text-muted-foreground"
-            >
-              <span className="flex items-center gap-2">
-                <PlayCircle size={16} className="text-primary" /> {licao.titulo}
-              </span>
-              <span className="text-sm">{licao.duracao}</span>
-            </div>
-          ))}
-        </motion.div>
-      )}
-    </motion.div>
-  );
-}
 
 export default function CourseDetail() {
   const { slug } = useParams<{ slug: string }>();
   const course = getCourseBySlug(slug || "");
-  const [openModules, setOpenModules] = useState<number[]>([0]);
-  const [openFaqs, setOpenFaqs] = useState<number[]>([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const { addToCart } = useCart();
+
+  useEffect(() => {
+    setTestimonials(getRandomTestimonials(3));
+  }, []);
 
   if (!course) {
     return (
@@ -101,349 +53,349 @@ export default function CourseDetail() {
     );
   }
 
-  const toggleModule = (index: number) => {
-    setOpenModules((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-  };
-
-  const toggleFaq = (index: number) => {
-    setOpenFaqs((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-  };
-
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
-      <section className="pt-24 pb-16 md:pt-28 md:pb-20 bg-gradient-to-br from-primary to-primary/80 relative overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-10">
-          <svg className="w-full h-full" viewBox="0 0 800 400" fill="none">
-            <motion.circle
-              cx="100"
-              cy="200"
-              r="150"
-              stroke="white"
-              strokeWidth="1"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1.2 }}
-              transition={{ duration: 5, repeat: Infinity, repeatType: "reverse" }}
-            />
-            <motion.circle
-              cx="700"
-              cy="100"
-              r="100"
-              stroke="white"
-              strokeWidth="1"
-              initial={{ scale: 1 }}
-              animate={{ scale: 0.8 }}
-              transition={{ duration: 4, repeat: Infinity, repeatType: "reverse" }}
-            />
+      {/* Hero Section */}
+      <section className="pt-48 pb-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-primary/5 -z-10" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-50">
+          <svg className="w-full h-full" viewBox="0 0 1200 600" fill="none">
+            <motion.circle cx="100" cy="100" r="300" stroke="currentColor" className="text-primary/20" strokeWidth="1" initial={{ scale: 0.8 }} animate={{ scale: 1.2 }} transition={{ duration: 15, repeat: Infinity, repeatType: "reverse" }} />
+            <motion.circle cx="1100" cy="500" r="400" stroke="currentColor" className="text-primary/20" strokeWidth="1" initial={{ scale: 1 }} animate={{ scale: 0.9 }} transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }} />
           </svg>
         </div>
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-start">
-            <div className="lg:col-span-3 text-white">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
+            <div className="lg:col-span-3">
               <Link href="/cursos">
-                <span className="inline-flex items-center gap-2 text-white/70 hover:text-white mb-6 text-sm cursor-pointer transition-colors">
+                <span className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary mb-8 text-sm cursor-pointer transition-colors font-medium">
                   <ArrowLeft size={16} />
                   Voltar ao Catálogo
                 </span>
               </Link>
 
-              <div className="text-white/60 text-sm mb-4">
-                Início / Cursos / {course.categoria} / {course.titulo}
+              <div className="flex flex-wrap gap-3 mb-6">
+                <span className="inline-block px-4 py-1.5 text-xs font-medium tracking-wider uppercase bg-primary/10 text-primary rounded-full border border-primary/20">
+                  {course.categoria}
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-medium tracking-wider uppercase bg-yellow-500/10 text-yellow-600 rounded-full border border-yellow-500/20">
+                  <Award size={14} /> Certificado DGERT
+                </span>
               </div>
 
-              <span className="inline-block bg-white/20 backdrop-blur-xl px-4 py-1.5 rounded-full text-sm font-medium">
-                {course.categoria}
-              </span>
-
-              <h1 className="text-4xl md:text-5xl font-bold mt-6 leading-tight">
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-4xl md:text-6xl font-bold mb-6 leading-tight text-foreground"
+              >
                 {course.titulo}
-              </h1>
+              </motion.h1>
 
-              <p className="text-xl text-white/80 mt-4 leading-relaxed">
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="text-xl text-muted-foreground leading-relaxed mb-8"
+              >
                 {course.descricaoCompleta}
-              </p>
+              </motion.p>
 
-              <div className="flex flex-wrap gap-6 mt-8 text-white/90">
-                <div className="flex items-center gap-2">
-                  <Clock size={20} />
-                  <span>{course.duracao}</span>
+              <div className="flex flex-wrap gap-6 text-foreground/80">
+                <div className="flex items-center gap-2 bg-white/50 backdrop-blur-sm px-4 py-2 rounded-xl border border-border/50">
+                  <Clock size={20} className="text-primary" />
+                  <span className="font-medium">{course.duracao}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <BarChart3 size={20} />
-                  <span>{course.nivel}</span>
+                <div className="flex items-center gap-2 bg-white/50 backdrop-blur-sm px-4 py-2 rounded-xl border border-border/50">
+                  <BarChart3 size={20} className="text-primary" />
+                  <span className="font-medium">{course.nivel}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Users size={20} />
-                  <span>{course.alunos} alunos</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Star size={20} className="fill-white" />
-                  <span>{course.rating}/5.0</span>
+                <div className="flex items-center gap-2 bg-white/50 backdrop-blur-sm px-4 py-2 rounded-xl border border-border/50">
+                  <Star size={20} className="text-primary fill-primary" />
+                  <span className="font-medium">{course.rating}/5.0</span>
                 </div>
               </div>
             </div>
 
             <div className="lg:col-span-2">
-              <div className="bg-white/10 backdrop-blur-2xl rounded-3xl p-8 border border-white/20 sticky top-28">
-                <div className="text-white">
-                  <span className="text-5xl font-bold">{course.preco}€</span>
-                  <span className="text-white/60 ml-2">pagamento único</span>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="bg-card rounded-[2rem] p-8 border border-border shadow-xl shadow-primary/5 sticky top-28"
+              >
+                <div className="flex items-end gap-2 mb-8">
+                  <span className="text-5xl font-bold text-foreground">{course.preco}€</span>
+                  <span className="text-muted-foreground mb-2 font-medium">pagamento único</span>
                 </div>
 
-                <ul className="mt-6 space-y-3 text-white/90">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 size={20} className="text-white" /> Acesso Vitalício
+                <ul className="space-y-4 mb-8">
+                  <li className="flex items-center gap-3 text-foreground/80">
+                    <div className="w-6 h-6 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0">
+                      <CheckCircle2 size={14} className="text-green-600" />
+                    </div>
+                    <span className="font-medium">Certificado DGERT Incluído</span>
                   </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 size={20} className="text-white" /> Certificado Reconhecido
+                  <li className="flex items-center gap-3 text-foreground/80">
+                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Users size={14} className="text-primary" />
+                    </div>
+                    <span className="font-medium">Apoio Individual do Formador</span>
                   </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 size={20} className="text-white" /> Suporte Permanente
+                  <li className="flex items-center gap-3 text-foreground/80">
+                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Clock size={14} className="text-primary" />
+                    </div>
+                    <span className="font-medium">Acesso Vitalício sem Prazos</span>
                   </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 size={20} className="text-white" /> Atualizações Gratuitas
+                  <li className="flex items-center gap-3 text-foreground/80">
+                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <BookOpen size={14} className="text-primary" />
+                    </div>
+                    <span className="font-medium">Manuais PDF e Exercícios</span>
                   </li>
                 </ul>
 
                 <Button
                   size="lg"
-                  className="w-full mt-8 bg-white text-primary hover:bg-white/90"
+                  className="w-full h-14 text-lg rounded-xl shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all"
                   data-testid="button-enroll"
+                  onClick={() => addToCart({ id: course.id, title: course.titulo, price: course.preco })}
                 >
-                  Inscrever-me Agora
-                  <ArrowRight className="ml-2 w-4 h-4" />
+                  Adicionar ao Carrinho
+                  <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
 
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="w-full mt-4 border-white/30 text-white hover:bg-white/10"
-                  data-testid="button-more-info"
-                >
-                  Saber Mais
-                </Button>
-
-                <p className="text-center text-white/60 text-sm mt-6">
-                  Garantia de 30 dias
+                <p className="text-center text-muted-foreground text-sm mt-6 flex items-center justify-center gap-2">
+                  <CheckCircle2 size={14} className="text-green-600" />
+                  Garantia de Satisfação de 15 dias
                 </p>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-16 md:py-20 bg-background">
-        <div className="max-w-4xl mx-auto px-6">
+      <section className="py-20 bg-background relative overflow-hidden">
+        <div className="absolute inset-0 bg-primary/5 -z-10 opacity-0" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-40">
+          <svg className="w-full h-full" viewBox="0 0 1200 600" fill="none">
+            <motion.circle cx="100" cy="500" r="200" stroke="currentColor" className="text-primary/10" strokeWidth="1" initial={{ scale: 0.8 }} animate={{ scale: 1.2 }} transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }} />
+            <motion.circle cx="1100" cy="100" r="300" stroke="currentColor" className="text-primary/10" strokeWidth="1" initial={{ scale: 1 }} animate={{ scale: 0.9 }} transition={{ duration: 25, repeat: Infinity, repeatType: "reverse" }} />
+            <motion.rect x="500" y="50" width="100" height="100" rx="30" stroke="currentColor" className="text-primary/10" strokeWidth="1" animate={{ rotate: 180 }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }} />
+          </svg>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-foreground mb-10"
+            className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center"
           >
             O Que Vai Aprender
           </motion.h2>
 
-          <div className="grid md:grid-cols-2 gap-5">
+          <div className="grid md:grid-cols-3 gap-6 mb-20">
             {course.objetivos.map((obj, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="flex gap-4"
+                className="flex items-center gap-4 p-6 rounded-2xl bg-card border border-border hover:border-primary/30 transition-colors shadow-sm"
               >
-                <CheckCircle2 className="text-primary flex-shrink-0 mt-0.5" size={22} />
-                <p className="text-muted-foreground">{obj}</p>
+                <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                  <CheckCircle2 className="text-green-600 w-5 h-5" />
+                </div>
+                <p className="text-foreground font-medium">{obj}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-16 md:py-20 bg-muted/50">
-        <div className="max-w-4xl mx-auto px-6">
+      <section className="py-24 bg-background overflow-hidden relative">
+        <div className="absolute inset-0 pointer-events-none opacity-40">
+          <svg className="w-full h-full" viewBox="0 0 1200 600" fill="none">
+            <motion.circle cx="1100" cy="100" r="250" stroke="currentColor" className="text-primary/10" strokeWidth="1" initial={{ scale: 0.8 }} animate={{ scale: 1.1 }} transition={{ duration: 18, repeat: Infinity, repeatType: "reverse" }} />
+            <motion.circle cx="50" cy="500" r="150" stroke="currentColor" className="text-primary/10" strokeWidth="1" initial={{ scale: 1 }} animate={{ scale: 0.9 }} transition={{ duration: 15, repeat: Infinity, repeatType: "reverse" }} />
+            <motion.rect x="200" y="100" width="150" height="150" rx="40" stroke="currentColor" className="text-primary/5" strokeWidth="2" animate={{ rotate: -90 }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }} />
+          </svg>
+        </div>
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-foreground mb-10"
+            className="text-3xl md:text-4xl font-bold text-foreground mb-16 text-center"
           >
-            Programa do Curso
+            Para Quem é Este Curso?
           </motion.h2>
 
-          <div className="space-y-4">
-            {course.modulos.map((modulo, i) => (
-              <ModuleAccordion
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Card 1: Empreendedores */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="bg-card rounded-[2rem] p-8 border border-border hover:border-orange-200 hover:shadow-lg transition-all duration-300 group"
+            >
+              <div className="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center mb-6 text-orange-600 group-hover:scale-110 transition-transform">
+                <BarChart3 size={28} />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-orange-600 transition-colors">Empreendedores</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Que necessitam de dominar novas ferramentas para gerir e escalar os seus próprios negócios com autonomia.
+              </p>
+            </motion.div>
+
+            {/* Card 2: Estudantes */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="bg-card rounded-[2rem] p-8 border border-border hover:border-purple-200 hover:shadow-lg transition-all duration-300 group"
+            >
+              <div className="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center mb-6 text-purple-600 group-hover:scale-110 transition-transform">
+                <BookOpen size={28} />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-purple-600 transition-colors">Estudantes</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Que querem complementar a formação académica com competências práticas altamente valorizadas.
+              </p>
+            </motion.div>
+
+            {/* Card 3: Profissionais */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="bg-card rounded-[2rem] p-8 border border-border hover:border-blue-200 hover:shadow-lg transition-all duration-300 group"
+            >
+              <div className="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 text-blue-600 group-hover:scale-110 transition-transform">
+                <Users size={28} />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-blue-600 transition-colors">Profissionais Ativos</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Que procuram atualizar as suas competências técnicas e acelerar a progressão na carreira.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+
+
+      <section className="py-20 bg-background border-y border-border/50 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none opacity-40">
+          <svg className="w-full h-full" viewBox="0 0 1200 600" fill="none">
+            <motion.rect x="1000" y="50" width="200" height="200" rx="40" stroke="currentColor" className="text-primary/5" strokeWidth="2" animate={{ rotate: 360 }} transition={{ duration: 100, repeat: Infinity, ease: "linear" }} />
+            <motion.circle cx="100" cy="300" r="100" stroke="currentColor" className="text-primary/10" strokeWidth="1" initial={{ scale: 0.9 }} animate={{ scale: 1.1 }} transition={{ duration: 10, repeat: Infinity, repeatType: "reverse" }} />
+            <motion.rect x="50" y="50" width="120" height="120" rx="30" stroke="currentColor" className="text-primary/5" strokeWidth="1" animate={{ rotate: 45 }} transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }} />
+          </svg>
+        </div>
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <span className="text-primary font-bold tracking-wider uppercase text-sm mb-2 block">Quem Ensina</span>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Equipa Certificada FOKUS</h2>
+              <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+                Os nossos cursos são desenvolvidos por uma equipa de formadores certificados e experientes no mercado de trabalho.
+                Não vendemos "truques", ensinamos competências reais validadas pela DGERT.
+              </p>
+              <div className="flex gap-4">
+                <div className="flex items-center gap-2 text-sm font-medium bg-primary/5 px-4 py-2 rounded-full text-primary">
+                  <Award size={16} />
+                  <span>Entidade Certificada DGERT</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm font-medium bg-primary/5 px-4 py-2 rounded-full text-primary">
+                  <Users size={16} />
+                  <span>+150 Manuais Criados</span>
+                </div>
+              </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="relative h-[300px] bg-muted rounded-3xl overflow-hidden"
+            >
+              {/* Placeholder for Team Image - using a gradient/pattern for now */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/5" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Award className="w-24 h-24 text-primary/20" />
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-background relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none opacity-40">
+          <svg className="w-full h-full" viewBox="0 0 1200 600" fill="none">
+            <motion.path d="M0,100 Q600,200 1200,100" stroke="currentColor" className="text-primary/5" strokeWidth="2" fill="none" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 5, ease: "easeInOut" }} />
+            <motion.circle cx="600" cy="500" r="300" stroke="currentColor" className="text-primary/5" strokeWidth="1" initial={{ scale: 0.8 }} animate={{ scale: 1.2 }} transition={{ duration: 25, repeat: Infinity, repeatType: "reverse" }} />
+            <motion.rect x="900" y="200" width="180" height="180" rx="50" stroke="currentColor" className="text-primary/5" strokeWidth="1" animate={{ rotate: -45 }} transition={{ duration: 35, repeat: Infinity, ease: "linear" }} />
+          </svg>
+        </div>
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl font-bold text-foreground mb-16 text-center"
+          >
+            O Que Dizem os Nossos Alunos
+          </motion.h2>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((test, i) => (
+              <motion.div
                 key={i}
-                modulo={modulo}
-                index={i}
-                isOpen={openModules.includes(i)}
-                onToggle={() => toggleModule(i)}
-              />
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                whileHover={{ y: -5 }}
+                className="bg-card rounded-[2rem] p-8 border border-border shadow-sm hover:shadow-xl hover:border-primary/30 transition-all duration-300"
+              >
+                <div className="flex gap-1 mb-6">
+                  {[...Array(5)].map((_, j) => (
+                    <Star
+                      key={j}
+                      size={18}
+                      className={`fill-current ${j >= Math.floor(test.rating) && test.rating % 1 !== 0 ? "opacity-50 text-primary/50" : j >= test.rating ? "text-primary/20 fill-primary/20" : "text-primary fill-primary"}`}
+                    />
+                  ))}
+                </div>
+                <p className="text-foreground/80 italic mb-8 leading-relaxed text-lg">"{test.texto}"</p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xl">
+                    {test.nome.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="font-bold text-foreground">{test.nome}</p>
+                    <p className="text-sm text-muted-foreground">{test.cargo}</p>
+                  </div>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-16 md:py-20 bg-background">
-        <div className="max-w-5xl mx-auto px-6">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-foreground mb-10"
-          >
-            O Seu Instrutor
-          </motion.h2>
-
-          <div className="grid md:grid-cols-3 gap-10 items-start">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              className="bg-gradient-to-br from-primary to-primary/70 rounded-3xl aspect-square flex items-center justify-center"
-            >
-              <div className="text-6xl text-white/30 font-bold">
-                {course.instrutor.nome.split(" ").map((n) => n[0]).join("")}
-              </div>
-            </motion.div>
-
-            <div className="md:col-span-2">
-              <h3 className="text-2xl font-bold text-foreground">
-                {course.instrutor.nome}
-              </h3>
-              <p className="text-primary font-medium mt-2">{course.instrutor.cargo}</p>
-
-              <p className="text-muted-foreground mt-6 leading-relaxed">
-                {course.instrutor.bio}
-              </p>
-
-              <div className="grid grid-cols-3 gap-6 mt-8">
-                <div>
-                  <div className="text-3xl font-bold text-primary">
-                    {course.instrutor.experiencia}+
-                  </div>
-                  <div className="text-sm text-muted-foreground">Anos de Experiência</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-primary">
-                    {course.instrutor.alunosTreinados.toLocaleString()}+
-                  </div>
-                  <div className="text-sm text-muted-foreground">Alunos Treinados</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-primary">
-                    {course.instrutor.avaliacao}
-                  </div>
-                  <div className="text-sm text-muted-foreground">Avaliação Média</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {course.testemunhos.length > 0 && (
-        <section className="py-16 md:py-20 bg-muted/50">
-          <div className="max-w-7xl mx-auto px-6">
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-3xl md:text-4xl font-bold text-foreground mb-10"
-            >
-              O Que Dizem os Alunos
-            </motion.h2>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              {course.testemunhos.map((test, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  whileHover={{ scale: 1.02 }}
-                  className="bg-white/50 backdrop-blur-xl rounded-3xl p-8 border border-white/30"
-                >
-                  <div className="flex gap-1 text-primary">
-                    {[...Array(5)].map((_, j) => (
-                      <Star key={j} size={18} className="fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-muted-foreground mt-4 italic">"{test.texto}"</p>
-                  <div className="mt-6">
-                    <p className="font-semibold text-foreground">{test.nome}</p>
-                    <p className="text-sm text-muted-foreground">{test.cargo}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {course.faqs.length > 0 && (
-        <section className="py-16 md:py-20 bg-background">
-          <div className="max-w-4xl mx-auto px-6">
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-3xl md:text-4xl font-bold text-foreground mb-10"
-            >
-              Perguntas Frequentes
-            </motion.h2>
-
-            <div className="space-y-4">
-              {course.faqs.map((faq, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="bg-white/50 backdrop-blur-xl rounded-3xl border border-white/30 overflow-hidden"
-                >
-                  <button
-                    onClick={() => toggleFaq(i)}
-                    className="w-full flex justify-between items-center p-6 text-left"
-                    data-testid={`accordion-faq-${i}`}
-                  >
-                    <h3 className="text-lg font-semibold text-foreground pr-4">
-                      {faq.pergunta}
-                    </h3>
-                    {openFaqs.includes(i) ? (
-                      <ChevronUp className="text-muted-foreground flex-shrink-0" />
-                    ) : (
-                      <ChevronDown className="text-muted-foreground flex-shrink-0" />
-                    )}
-                  </button>
-
-                  {openFaqs.includes(i) && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      className="px-6 pb-6"
-                    >
-                      <p className="text-muted-foreground">{faq.resposta}</p>
-                    </motion.div>
-                  )}
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      <section className="relative py-20 md:py-24 overflow-hidden">
+      <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0 bg-primary" />
         <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-10">
           <svg className="w-full h-full" viewBox="0 0 800 300" fill="none">
@@ -470,7 +422,7 @@ export default function CourseDetail() {
           </svg>
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -484,9 +436,9 @@ export default function CourseDetail() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-lg text-primary-foreground/80 mb-8 max-w-2xl mx-auto"
+            className="text-lg text-primary-foreground/80 mb-10 max-w-2xl mx-auto"
           >
-            Junte-se aos {course.alunos}+ profissionais que já escolheram investir no seu desenvolvimento.
+            Junte-se aos profissionais que já escolheram investir no seu desenvolvimento com certificação DGERT.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -496,17 +448,44 @@ export default function CourseDetail() {
           >
             <Button
               size="lg"
-              className="bg-white text-primary hover:bg-white/90 px-10"
+              className="bg-white text-primary hover:bg-white/90 px-10 h-14 text-lg rounded-xl shadow-xl shadow-black/10"
               data-testid="button-enroll-final"
+              onClick={() => addToCart({ id: course.id, title: course.titulo, price: course.preco })}
             >
-              Inscrever-me Agora por {course.preco}€
-              <ArrowRight className="ml-2 w-4 h-4" />
+              Adicionar ao Carrinho por {course.preco}€
+              <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </motion.div>
+
+          <div className="mt-12 pt-8 border-t border-white/10">
+            <p className="text-primary-foreground/60 text-sm">
+              Ainda com dúvidas? <a href="mailto:admin@fokus.pt" className="text-white underline hover:text-white/80 transition-colors">Fale connosco</a>
+            </p>
+          </div>
         </div>
       </section>
 
+
+
       <Footer />
+
+      {/* Mobile Sticky Action Bar */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/80 backdrop-blur-xl border-t border-border md:hidden z-50">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="text-xs text-muted-foreground">Total</p>
+            <p className="text-xl font-bold text-primary">{course.preco}€</p>
+          </div>
+          <Button
+            size="lg"
+            className="flex-1 shadow-lg shadow-primary/20"
+            onClick={() => addToCart({ id: course.id, title: course.titulo, price: course.preco })}
+          >
+            Comprar Agora
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
+

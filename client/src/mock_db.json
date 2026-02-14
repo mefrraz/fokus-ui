@@ -1,0 +1,55 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "email": "aluno@fokus.com",
+            "password": "123",
+            "name": "Aluno Exemplo",
+            "purchases": [
+                {
+                    "courseId": 101,
+                    "title": "Curso Completo de React",
+                    "date": "2023-10-15",
+                    "price": 49.99,
+                    "progress": 45,
+                    "lastAccessed": "2023-11-20"
+                },
+                {
+                    "courseId": 102,
+                    "title": "Design UI/UX Avançado",
+                    "date": "2023-11-01",
+                    "price": 79.99,
+                    "progress": 10,
+                    "lastAccessed": "2023-11-05"
+                }
+            ],
+            "feedback": [
+                {
+                    "courseId": 101,
+                    "rating": 5,
+                    "comment": "Excelente curso! Muito prático."
+                }
+            ]
+        }
+    ],
+    "courses": [
+        {
+            "id": 101,
+            "title": "Curso Completo de React",
+            "description": "Domine o React do zero ao avançado.",
+            "price": 49.99
+        },
+        {
+            "id": 102,
+            "title": "Design UI/UX Avançado",
+            "description": "Crie interfaces incríveis e funcionais.",
+            "price": 79.99
+        },
+        {
+            "id": 103,
+            "title": "Node.js para Iniciantes",
+            "description": "Construa APIs robustas com Node.js.",
+            "price": 39.99
+        }
+    ]
+}

@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Mail } from "lucide-react";
+import { Link } from "wouter";
 
 export default function CTASection() {
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-primary" />
-      
+
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <svg
           className="absolute w-full h-full opacity-10"
@@ -66,7 +67,7 @@ export default function CTASection() {
             a sua carreira?
           </h2>
           <p className="text-lg md:text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Junte-se a milhares de profissionais que já escolheram investir no 
+            Junte-se a milhares de profissionais que já escolheram investir no
             seu desenvolvimento. O próximo passo está a um clique de distância.
           </p>
         </motion.div>
@@ -78,24 +79,28 @@ export default function CTASection() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <Button
-            size="lg"
-            variant="secondary"
-            className="px-8 bg-white text-primary hover:bg-white/90"
-            data-testid="button-cta-main"
-          >
-            Começar Agora
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 backdrop-blur-sm"
-            data-testid="button-cta-contact"
-          >
-            <Mail className="mr-2 w-4 h-4" />
-            Fale Connosco
-          </Button>
+          <Link href="/cursos">
+            <Button
+              size="lg"
+              variant="secondary"
+              className="px-8 bg-white text-primary hover:bg-white/90"
+              data-testid="button-cta-main"
+            >
+              Começar Agora
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </Link>
+          <a href="mailto:geral@fokus.pt">
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 backdrop-blur-sm"
+              data-testid="button-cta-contact"
+            >
+              <Mail className="mr-2 w-4 h-4" />
+              Fale Connosco
+            </Button>
+          </a>
         </motion.div>
 
         <motion.p

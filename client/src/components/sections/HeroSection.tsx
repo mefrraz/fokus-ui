@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { Link } from "wouter";
 
 function AnimatedBackground() {
   return (
@@ -144,7 +145,7 @@ export default function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
       <AnimatedBackground />
-      
+
       <div className="relative z-10 max-w-4xl mx-auto px-6 py-20 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -162,9 +163,9 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight tracking-tight mb-6"
         >
-          Desenvolva competências
+          Elimina o ruído.
           <br />
-          <span className="text-primary">que fazem a diferença</span>
+          <span className="text-primary">Foca-te na tua carreira.</span>
         </motion.h1>
 
         <motion.p
@@ -173,8 +174,8 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          Cursos de especialização desenhados para profissionais que procuram 
-          excelência. Metodologia prática, conteúdo atualizado e resultados mensuráveis.
+          Formação direta, prática e certificada DGERT. Sem vídeos intermináveis,
+          apenas o conhecimento essencial para evoluíres profissionalmente.
         </motion.p>
 
         <motion.div
@@ -183,13 +184,17 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <Button size="lg" className="px-8" data-testid="button-cta-hero">
-            Explorar Cursos
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Button>
-          <Button variant="outline" size="lg" data-testid="button-secondary-hero">
-            Saber Mais
-          </Button>
+          <Link href="/cursos">
+            <Button size="lg" className="px-8" data-testid="button-cta-hero">
+              Explorar Cursos
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </Link>
+          <Link href="/metodologia">
+            <Button variant="outline" size="lg" data-testid="button-secondary-hero">
+              Saber Mais
+            </Button>
+          </Link>
         </motion.div>
 
         <motion.div
@@ -200,15 +205,15 @@ export default function HeroSection() {
         >
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-primary" />
-            <span>+2.500 Profissionais</span>
+            <span>+2.500 Alunos Certificados</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-primary" />
-            <span>98% Satisfação</span>
+            <span>Apoio Individual</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-primary" />
-            <span>Certificação Reconhecida</span>
+            <span>Certificado DGERT</span>
           </div>
         </motion.div>
       </div>

@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { Clock, Users, Star } from "lucide-react";
+import { Clock, Users, Star, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import type { Course } from "@shared/courses";
+import { useCart } from "@/context/CartContext";
 
 interface CourseCardProps {
   course: Course;
@@ -10,6 +11,8 @@ interface CourseCardProps {
 }
 
 export default function CourseCard({ course, index = 0 }: CourseCardProps) {
+  const { addToCart } = useCart();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -86,11 +89,21 @@ export default function CourseCard({ course, index = 0 }: CourseCardProps) {
         <div>
           <span className="text-2xl font-bold text-foreground">{course.preco}€</span>
         </div>
-        <Link href={`/cursos/${course.slug}`}>
-          <Button data-testid={`button-view-course-${course.id}`}>
-            Ver Detalhes
+        <div className="flex gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => addToCart({ id: course.id, title: course.titulo, price: course.preco })}
+            data-testid={`button-add-cart-${course.id}`}
+          >
+            <ShoppingCart size={20} />
           </Button>
-        </Link>
+          <Link href={`/cursos/${course.slug}`}>
+            <Button data-testid={`button-view-course-${course.id}`}>
+              Ver Detalhes
+            </Button>
+          </Link>
+        </div>
       </div>
     </motion.div>
   );
