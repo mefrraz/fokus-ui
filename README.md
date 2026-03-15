@@ -47,6 +47,8 @@ npm run build
 
 Este projeto está configurado para deploy no Vercel. Basta conectar o repositório GitHub ao Vercel.
 
+https://fokus-ui.vercel.app/
+
 ## Estado do Projeto
 
 Em desenvolvimento - interface de loja não finalizada.
